@@ -7,6 +7,26 @@ from app.forms import ContatoForm
 def homepage():
     return render_template('index.html')
 
+@app.route('/contato/lista/')
+def lista_contatos():
+    
+    if request.method == 'GET':
+        pesquisa = request.args.get('pesquisa', '')
+
+
+    dados = Contato.query.order_by(Contato.nome).all()
+    if pesquisa != '':
+        dados = Contato.query.filter_by(nome=pesquisa).all()
+
+    context = {'dados': dados}
+
+    return render_template('lista_contatos.html', context=context)
+
+
+
+
+
+
 
 #Formato não recomendado
 @app.route('/contato_old/', methods=['GET', 'POST'])
@@ -45,3 +65,4 @@ def contato():
         return redirect(url_for('homepage'))
 
     return render_template('contato.html', context=context, form=form)
+
