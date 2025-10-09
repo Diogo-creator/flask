@@ -22,6 +22,12 @@ def lista_contatos():
 
     return render_template('lista_contatos.html', context=context)
 
+@app.route('/contato/<int:id>/')
+def contato_id(id):
+    contato = Contato.query.get(id)
+    context = {'contato': contato}
+    return render_template('contato_id.html', context=context)
+
 
 
 

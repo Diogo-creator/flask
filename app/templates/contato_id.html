@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    {% include 'nav.html' %}
+    <div class="row mt-4 p-4 border border-2 rounded-3 col-6">
+        <h3>Contato de {{ context['contato'].nome }} :</h3>
+
+        <p>Nome: {{ context['contato'].nome }}</p>
+        <p>Email: {{ context['contato'].email }}</p>
+        <p>Assunto: {{ context['contato'].assunto }}</p>
+        
+        <div class="col-12 mt-4">
+            <textarea type="text" rows="10" class="form-control bg-primary text-white " readonly>{{context['contato'].mensagem}}</textarea>
+        </div>
+
+        <div class="mt-4">
+            {% if context['contato'].respondido == 1 %}
+                <p>Respondido: <span class="badge bg-success">Sim</span></p>
+            {% else %}
+                <p>Respondido: <span class="badge bg-danger">Não</span></p>
+            {% endif %}
+        </div>
+
+    </div>
+</div>    
+{% endblock %}
