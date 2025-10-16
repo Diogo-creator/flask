@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from dotenv import load_dotenv
 import os
+from flask_login import LoginManager
+import flask_bcrypt as Bcrypt
 
 load_dotenv('.env')
 
@@ -15,6 +17,8 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+LoginManager = LoginManager(app)
+LoginManager.login_view = 'login'
 
 from app.views import homepage
 from app.models import Contato
