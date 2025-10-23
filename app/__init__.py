@@ -1,10 +1,6 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
-from flask_migrate import Migrate
 from dotenv import load_dotenv
 import os
-import flask_bcrypt as Bcrypt
 
 load_dotenv('.env')
 
@@ -16,14 +12,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 # Extensões
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+from .extensions import db, migrate, bcrypt, login_manager
 
-# Login manager
-login_manager = LoginManager()
+db.init_app(app)
+migrate.init_app(app, db)
+bcrypt.init_app(app)
 login_manager.init_app(app)
 login_manager.login_view = 'login'
-
 
 from app.views import homepage
 from app.models import Contato

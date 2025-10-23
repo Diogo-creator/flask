@@ -1,13 +1,51 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% include 'nav.html' %} 
+<div class="container">
+{% include 'nav.html' %}
+
     <div class="row mt-4 p-4">
-        <h3>Estudo Flask</h3>
-        <h5>Bem vindo a aula de Flask!</h5>
-        <h5>O projeto está conectado ao git!</h5>
-        
+        <div class="mt-4">
+            {% if current_user.is_authenticated %}
+                <h1>Bem-vindo, {{ current_user.username }}!</h1>
+                <hr>
+                <span class="class btn btn-primary">
+                    
+                        Usuário:
+                        {{current_user.username}}  {{current_user.lastname}}
+                    
+                </span>
+                
+                <a href="{{url_for('logout')}}" class="btn btn-danger">Sair</a>
+                </hr>
+            {% else %}
+
+                <div class="row mt-4 p-4 justify-content-center">
+
+                    <form method="post" class="row mt-4 p-4 border border-2 rounded-3 col-6">
+
+                        <h3>Login</h3>
+
+                        {{form.csrf_token}}
+
+                        {{form.email.label() }}
+                        {{form.email(class_="form-control")}}
+
+                        {{form.password.label() }}
+                        {{form.password(class_="form-control")}}
+
+                        {{form.btnSubmit(class_="btn btn-primary mt-4 col-12")}}
+
+                        <div class="mt-4 col-12">
+                            <p>Ainda não possui cadastro?<a href="{{url_for('cadastro')}}"> Clique aqui</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
        
         
     </div>
+</div>
 {% endblock %}

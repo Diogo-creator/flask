@@ -13,8 +13,8 @@ class Contato(db.Model):
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(150), nullable=False, unique=True)
-    last_name = db.Column(db.String(150), nullable=False)
+    username = db.Column(db.String(150), nullable=False)
+    lastname = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), nullable=False, unique=True)
     password = db.Column(db.String(150), nullable=False)
 
