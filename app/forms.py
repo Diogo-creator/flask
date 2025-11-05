@@ -1,10 +1,14 @@
 from flask import flash
 from flask_wtf import FlaskForm
 from sqlalchemy.exc import IntegrityError
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField, FileField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
-from app.models import Contato, User
-from app import db, bcrypt
+
+import os
+from werkzeug.utils import secure_filename
+
+from app.models import Contato, User, Post, Comentario
+from app import db, bcrypt,app
 
 # Formulário de Registro de Usuário
 class UserForm(FlaskForm):
@@ -72,4 +76,47 @@ class ContatoForm(FlaskForm):
             mensagem=self.mensagem.data
         )
         db.session.add(contato)
+        db.session.commit()
+
+
+class PostForm(FlaskForm):
+    mensagem = StringField('Mensagem', validators=[DataRequired()])
+    imagem = FileField('Imagem', validators=[DataRequired()])
+    btnSubmit = SubmitField('Postar')
+
+    def save(self, user_id):
+        imagem = self.imagem.data
+        nome_seguro = secure_filename(imagem.filename)
+        
+        post = Post(
+            mensagem=self.mensagem.data,
+            user_id=user_id,
+            imagem=nome_seguro
+        )
+
+        caminho_salvar = os.path.join(
+            # Pegar a pasta que está rodando o Flask
+            os.path.abspath(os.path.dirname(__file__)),
+            # Pasta de upload configurada no __init__.py
+            app.config['UPLOAD_FILES'],
+            # Subpasta para os arquivos de upload
+            'post',
+            nome_seguro
+            )
+        
+        imagem.save(caminho_salvar)
+        db.session.add(post)
+        db.session.commit()
+
+class ComentarioForm(FlaskForm):
+    comentario = StringField('Comentário', validators=[DataRequired()])
+    btnSubmit = SubmitField('Comentar')
+
+    def save(self, user_id, post_id):
+        comentario = Comentario(
+            comentario=self.comentario.data,
+            user_id=user_id,
+            post_id=post_id
+        )
+        db.session.add(comentario)
         db.session.commit()

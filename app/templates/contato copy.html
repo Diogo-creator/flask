@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'nav.html' %}
+    <div class="row mt-4 p-4">
+        <h3>Envio de Contato:</h3>
+        <form method="post" class="row mt-4 p-4 border border-2 rounded-3 col-6">
+            {{form.csrf_token}}
+
+            {{form.nome.label() }}
+            {{form.nome(class_="form-control")}}
+
+            {{form.email.label() }}
+            {{form.email(class_="form-control")}}
+
+            {{form.assunto.label() }}
+            {{form.assunto(class_="form-control")}}
+
+            {{form.mensagem.label() }}
+            {{form.mensagem(class_="form-control")}}
+
+            {{form.btnSubmit(class_="btn btn-primary col-12 mt-4")}}
+
+
+        </form>
+    </div>
+    
+{% endblock %}

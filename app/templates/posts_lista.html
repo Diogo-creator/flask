@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'nav.html' %}
+    <div class="row mt-4 p-4">
+
+        <h3>Lista de Posts:</h3>
+
+        <div class="col-12">
+            <table class="table table-striped table-hover table-bordered table-responsive align-middle text-center mt-4">
+                <thead>
+                    <tr>
+                        <th>Post:</th>
+                        <th>Usuário:</th>
+                        <th>Detalhes:</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(context['posts']|length) %}
+                    <tr>
+                        <td>{{context['posts'][i].mensagem_resumida()}}</td>
+                        <td>{{context['posts'][i].user.username}}</td>
+                        <td><a href="{{ url_for('post_id', id=context['posts'][i].id) }}" class="btn btn-primary">Detalhe</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+{% endblock %}

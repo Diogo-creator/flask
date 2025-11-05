@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'nav.html' %}
+    <div class="row mt-4 p-4 justify-content-center">
+        
+        <form method="post" class="row mt-4 p-4 border border-2 rounded-3 col-6" enctype="multipart/form-data">
+            {{form.csrf_token}}
+
+            <h3>Novo Post:</h3>
+
+            {{form.mensagem.label() }}
+            {{form.mensagem(class_="form-control")}}
+
+            {{form.imagem.label() }}
+            {{form.imagem(class_="form-control")}}
+
+            {{form.btnSubmit(class_="btn btn-primary col-12 mt-4")}}
+
+        </form>
+    </div>
+    
+{% endblock %}
